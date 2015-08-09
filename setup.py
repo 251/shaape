@@ -29,7 +29,5 @@ setup(name='shaape',
       license='LICENSE',
       url='http://github.com/christiangoltz/shaape',
       tests_require=['nose'],
-      install_requires=[
-          'networkx',
-          'PyYAML']
+      install_requires=['networkx', 'PyYAML', 'scipy', 'numpy']
      )
