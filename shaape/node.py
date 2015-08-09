@@ -28,14 +28,14 @@ class Node(object):
     
     def __getitem__(self, index):
         if index == 0 or index == 1:
-    		return self.m_position[index]
+            return self.m_position[index]
         raise IndexError
 
     def __add__(self, other):
-		return Node(self.m_position[0] + other[0], self.m_position[1] + other[1], self.style(), self.fusable())
+        return Node(self.m_position[0] + other[0], self.m_position[1] + other[1], self.style(), self.fusable())
 
     def __sub__(self, other):
-		return Node(self.m_position[0] - other[0], self.m_position[1] - other[1], self.style(), self.fusable())
+        return Node(self.m_position[0] - other[0], self.m_position[1] - other[1], self.style(), self.fusable())
 
     def __div__(self, other):
         if isinstance(other, (float, int)):
@@ -45,9 +45,9 @@ class Node(object):
 
     def __mul__(self, other):
         if isinstance(other, (float, int)):
-    		return Node(self.m_position[0] * other, self.m_position[1] * other, self.style(), self.fusable())
+            return Node(self.m_position[0] * other, self.m_position[1] * other, self.style(), self.fusable())
         else:
-    		return Node(self.m_position[0] * other[0], self.m_position[1] * other[1], self.style(), self.fusable())
+            return Node(self.m_position[0] * other[0], self.m_position[1] * other[1], self.style(), self.fusable())
 
     def __key__(self):
         return self.m_position
