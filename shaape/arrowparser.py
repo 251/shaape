@@ -8,22 +8,18 @@ from downarrow import DownArrow
 from parser import Parser
 from drawable import *
 from graphalgorithms import angle
-import networkx
+
 
 class ArrowParser(Parser):
     def __init__(self):
         super(ArrowParser, self).__init__()
-        self._arrows = {}
-        self._arrows['>'] = RightArrow
-        self._arrows['<'] = LeftArrow
-        self._arrows['^'] = UpArrow
-        self._arrows['v'] = DownArrow
+        self._arrows = {'>': RightArrow, '<': LeftArrow, '^': UpArrow, 'v': DownArrow}
         return
 
     def run(self, raw_data, drawable_objects):
         arrows = []
         for y in range(0, len(raw_data)):
-            for x in range(0, len(raw_data[0])): 
+            for x in range(0, len(raw_data[0])):
                 if raw_data[y][x] in self._arrows.keys():
                     arrow = self._arrows[raw_data[y][x]]((x + 0.5, y + 0.5))
                     arrows.append(arrow)
@@ -34,7 +30,7 @@ class ArrowParser(Parser):
             graph = next(obj for obj in drawable_objects if type(obj) == nx.Graph)
         except StopIteration:
             pass
-        if graph != None:
+        if graph is not None:
             for arrow in arrows:
                 for obj in drawable_objects:
                     connector = Node(*(arrow.connector()))
@@ -46,7 +42,8 @@ class ArrowParser(Parser):
                         pass
             for arrow in arrows:
                 tip = Node(*(arrow.tip()))
-                nodes_in_front = [node for node in graph.nodes() if (node == tip) or angle(arrow.direction(), node - tip) <= 90]
+                nodes_in_front = [node for node in graph.nodes() if
+                                  (node == tip) or angle(arrow.direction(), node - tip) <= 90]
                 if nodes_in_front:
                     nearest_node = min(nodes_in_front, key=lambda node: (node - tip.position()).length())
                     diff = nearest_node - tip

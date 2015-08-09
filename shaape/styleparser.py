@@ -8,6 +8,7 @@ from opengraph import OpenGraph
 from style import Style
 import re
 
+
 class StyleParser(Parser):
     def __init__(self):
         super(StyleParser, self).__init__()
@@ -15,15 +16,15 @@ class StyleParser(Parser):
 
     def run(self, raw_data, objects):
         styles = filter(lambda x: isinstance(x, Style), objects)
-        styles = sorted(styles, key = lambda x: x.priority())
+        styles = sorted(styles, key=lambda x: x.priority())
         named_drawables = filter(lambda x: isinstance(x, Drawable) and isinstance(x, Named), objects)
-        
+
         default_style = {
-            'fill' : Style([], 'fill', [[1, 1, 1], [0.5 ,0.5, 0.5]]),
-            'frame' : Style([], 'frame', [[0, 0, 0], 'solid', 1]),
-            'line' : Style([], 'fill', [[0, 0, 0, 1], 'solid', 1]),
-            'arrow' : Style([], 'fill', [[0, 0, 0]]),
-            'text' : Style([], 'text', [[0, 0, 0], 'no-shadow'])}
+            'fill': Style([], 'fill', [[1, 1, 1], [0.5, 0.5, 0.5]]),
+            'frame': Style([], 'frame', [[0, 0, 0], 'solid', 1]),
+            'line': Style([], 'fill', [[0, 0, 0, 1], 'solid', 1]),
+            'arrow': Style([], 'fill', [[0, 0, 0]]),
+            'text': Style([], 'text', [[0, 0, 0], 'no-shadow'])}
 
         for obj in objects:
             if isinstance(obj, Drawable):
@@ -59,7 +60,7 @@ class StyleParser(Parser):
                             target_obj = obj
                         else:
                             target_obj = None
-                        if target_obj != None:
+                        if target_obj is not None:
                             if style.priority() > target_obj.style().priority():
                                 target_obj.set_style(style)
 

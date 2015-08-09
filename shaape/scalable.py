@@ -4,4 +4,3 @@ class Scalable(object):
 
     def scale(self, scale):
         raise NotImplementedError
-

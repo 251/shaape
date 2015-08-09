@@ -1,6 +1,7 @@
 from parser import Parser
 from background import Background
 
+
 class BackgroundParser(Parser):
     def __init__(self):
         super(BackgroundParser, self).__init__()
@@ -9,7 +10,7 @@ class BackgroundParser(Parser):
     def run(self, raw_data, objects):
         self._parsed_data = []
         self._objects = objects
-        if raw_data != []:
+        if raw_data:
             max_len = len(max(raw_data, key=len))
             for line in raw_data:
                 if line[-1] == '\n':

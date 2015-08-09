@@ -1,7 +1,8 @@
 import math
 
+
 class Node(object):
-    def __init__(self, x, y, style = 'miter', fusable = True):
+    def __init__(self, x, y, style='miter', fusable=True):
         self.m_position = (x, y)
         if style in ['miter', 'curve']:
             self.__style = style
@@ -25,7 +26,7 @@ class Node(object):
 
     def style(self):
         return self.__style
-    
+
     def __getitem__(self, index):
         if index == 0 or index == 1:
             return self.m_position[index]
@@ -65,7 +66,7 @@ class Node(object):
         return (n for n in self.m_position)
 
     def length(self):
-        return math.sqrt(sum(self.m_position[i]* self.m_position[i] for i in range(len(self.m_position))))
+        return math.sqrt(sum(self.m_position[i] * self.m_position[i] for i in range(len(self.m_position))))
 
     def normalize(self):
         length = self.length()

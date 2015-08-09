@@ -6,7 +6,7 @@ from vector import Vector
 
 
 class Text(Drawable, Translatable, Scalable, Named):
-    def __init__(self, text = "", position = (0, 0)):
+    def __init__(self, text="", position=(0, 0)):
         Drawable.__init__(self)
         Translatable.__init__(self, position)
         Named.__init__(self)
@@ -26,7 +26,7 @@ class Text(Drawable, Translatable, Scalable, Named):
         self.__font_size = self.__font_size * scale[0]
         self.__scaled_direction *= scale
         return
-    
+
     def min(self):
         return self.position()
 

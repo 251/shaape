@@ -1,5 +1,6 @@
 from drawable import Drawable
 
+
 class Parser(object):
     def __init__(self):
         self._parsed_data = []

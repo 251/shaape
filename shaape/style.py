@@ -1,12 +1,12 @@
-import copy
 from font import Font
 
+
 class Style(object):
-    COLORS = { 'red' : [1, 0, 0], 'green' : [0, 1, 0], 'blue' : [0, 0, 1], 'empty' : [0, 0, 0, 0] }
-    DEFAULT_STYLE = { 'color' : [[0, 0, 0, 1]], 'type' : 'solid', 'shadow' : 'on', 'width' : 1, 'font' : Font() }
+    COLORS = {'red': [1, 0, 0], 'green': [0, 1, 0], 'blue': [0, 0, 1], 'empty': [0, 0, 0, 0]}
+    DEFAULT_STYLE = {'color': [[0, 0, 0, 1]], 'type': 'solid', 'shadow': 'on', 'width': 1, 'font': Font()}
     KEYWORDS = ['shadow', 'dash-dotted', 'dashed', 'dotted', 'solid', 'no-shadow']
 
-    def __init__(self, name_pattern = '', target_type = '', option_list = [], priority = -1):
+    def __init__(self, name_pattern='', target_type='', option_list=[], priority=-1):
         self.__name_pattern = name_pattern
         self.__options = {}
         self.__priority = priority
@@ -22,10 +22,10 @@ class Style(object):
 
     def set_options(self, option_list):
         # find colors
-        colors = filter(lambda x: x in Style.COLORS.keys(), option_list) 
+        colors = filter(lambda x: x in Style.COLORS.keys(), option_list)
         for color in colors:
             self.add_color(Style.COLORS[color])
-        color_lists = [option for option in option_list if type(option) == list and len(option) in range(3,5) ]
+        color_lists = [option for option in option_list if type(option) == list and len(option) in range(3, 5)]
         if len(color_lists) > 0:
             for color in color_lists:
                 self.add_color(color)
@@ -50,7 +50,7 @@ class Style(object):
                     self.font().set_size(option)
                 else:
                     self.set_width(option)
-            if type(option) == str and not option in self.KEYWORDS + self.COLORS.keys():
+            if type(option) == str and option not in self.KEYWORDS + self.COLORS.keys():
                 if self.__target_type == 'text':
                     self.font().set_name(option)
 
@@ -69,7 +69,7 @@ class Style(object):
         self.__name_pattern = name_pattern
 
     def shadow(self):
-        return  dict(Style.DEFAULT_STYLE.items() + self.__options.items())['shadow']
+        return dict(Style.DEFAULT_STYLE.items() + self.__options.items())['shadow']
 
     def set_target_type(self, target_type):
         self.__target_type = target_type
@@ -91,7 +91,7 @@ class Style(object):
 
     def add_color(self, color):
         if len(color) == 3 or len(color) == 4:
-            if not 'color' in self.__options.keys():
+            if 'color' not in self.__options.keys():
                 self.__options['color'] = []
             self.__options['color'].append(color)
         else:
@@ -127,7 +127,10 @@ class Style(object):
         if not isinstance(other, Style):
             return -1
         else:
-            return cmp((self.__name_pattern, self.__target_type, self.__options),(other.name_pattern(), other.target_type(), other.options()))
+            return cmp((self.__name_pattern, self.__target_type, self.__options),
+                       (other.name_pattern(), other.target_type(), other.options()))
 
     def __repr__(self):
-        return "(name_pattern: " + str(self.__name_pattern) + ", target_type:" + self.__target_type + ", options:" + str(self.__options) + ", prio:" + str(self.priority()) + ")"
+        return "(name_pattern: " + str(
+            self.__name_pattern) + ", target_type:" + self.__target_type + ", options:" + str(
+            self.__options) + ", prio:" + str(self.priority()) + ")"

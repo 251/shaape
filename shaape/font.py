@@ -1,5 +1,5 @@
 class Font(object):
-    def __init__(self, name = 'Monospace 10'):
+    def __init__(self, name='Monospace 10'):
         self.__name = name
 
     def name(self):

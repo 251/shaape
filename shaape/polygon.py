@@ -2,17 +2,18 @@ from drawable import Drawable
 from edge import Edge
 from named import Named
 from scalable import Scalable
-import networkx as nx
 from opengraph import OpenGraph
 from graphalgorithms import *
+import networkx as nx
+
 
 class Polygon(Drawable, Named, Scalable):
-    def __init__(self, node_list, options = []):
+    def __init__(self, node_list, options=[]):
         Drawable.__init__(self, options)
         Named.__init__(self)
-        self.__node_list = node_list 
+        self.__node_list = node_list
         cycle_graph = nx.Graph()
-        if node_list :
+        if node_list:
             for n in range(1, len(node_list)):
                 cycle_graph.add_edge(node_list[n - 1], node_list[n])
         self.style().set_target_type('fill')
@@ -41,24 +42,24 @@ class Polygon(Drawable, Named, Scalable):
         else:
             n = len(self.__node_list)
             inside = False
-            x,y = obj
-            p1x,p1y = self.__node_list[0]
-            for i in range(n+1):
-                p2x,p2y = self.__node_list[i % n]
-                if y > min(p1y,p2y):
-                    if y <= max(p1y,p2y):
-                        if x <= max(p1x,p2x):
-                            xinters = (y-p1y)*(p2x-p1x)/(p2y-p1y)+p1x
+            x, y = obj
+            p1x, p1y = self.__node_list[0]
+            for i in range(n + 1):
+                p2x, p2y = self.__node_list[i % n]
+                if y > min(p1y, p2y):
+                    if y <= max(p1y, p2y):
+                        if x <= max(p1x, p2x):
+                            xinters = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
                             if p1x == p2x or x <= xinters:
                                 inside = not inside
-                p1x,p1y = p2x,p2y
+                p1x, p1y = p2x, p2y
             return inside
 
     def nodes(self):
         return self.__node_list
 
     def edges(self):
-        return [(self.__node_list[i], self.__node_list[i + 1]) for i in range(0, len(self.__node_list) - 1)] 
+        return [(self.__node_list[i], self.__node_list[i + 1]) for i in range(0, len(self.__node_list) - 1)]
 
     def has_edge(self, start, end):
         i = 0
@@ -71,10 +72,10 @@ class Polygon(Drawable, Named, Scalable):
                 return False
 
     def max(self):
-        return (max([n[0] for n in self.__node_list]), max([n[1] for n in self.__node_list]))
+        return max([n[0] for n in self.__node_list]), max([n[1] for n in self.__node_list])
 
     def min(self):
-        return (min([n[0] for n in self.__node_list]), min([n[1] for n in self.__node_list]))
+        return min([n[0] for n in self.__node_list]), min([n[1] for n in self.__node_list])
 
     def scale(self, scale):
         for n in range(0, len(self.__node_list)):

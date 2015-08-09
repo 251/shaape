@@ -30,4 +30,4 @@ setup(name='shaape',
       url='http://github.com/christiangoltz/shaape',
       tests_require=['nose'],
       install_requires=['networkx', 'PyYAML', 'scipy', 'numpy']
-     )
+      )

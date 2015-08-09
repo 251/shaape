@@ -6,30 +6,33 @@ from background import Background
 from arrow import Arrow
 from text import Text
 
-class DrawingBackend(object):
 
+class DrawingBackend(object):
     DEFAULT_SCALE = 1
     DEFAULT_PIXELS_PER_UNIT = 20
     DEFAULT_SHADOW_TRANSLATION = (2, 2)
 
-    def __init__(self, image_scale = DEFAULT_SCALE, image_width = None, image_height = None):
-        self.__user_canvas_size = [image_width, image_height] 
+    def __init__(self, image_scale=DEFAULT_SCALE, image_width=None, image_height=None):
+        self.__user_canvas_size = [image_width, image_height]
         self._canvas_size = [image_width, image_height]
         if image_width:
-            self._canvas_size[0] = self._canvas_size[0] * image_scale
+            self._canvas_size[0] *= image_scale
         if image_height:
             self._canvas_size[1] = self._canvas_size[1] * image_scale
         self._scale = image_scale
         self.__aspect_ratio = 0.5
-        self.__pixels_per_unit = (self.DEFAULT_PIXELS_PER_UNIT * self._scale * self.__aspect_ratio, self.DEFAULT_PIXELS_PER_UNIT * self._scale)
-        self.__global_scale = (self.DEFAULT_PIXELS_PER_UNIT * self._scale * self.__aspect_ratio, self.DEFAULT_PIXELS_PER_UNIT * self._scale)
+        self.__pixels_per_unit = (
+        self.DEFAULT_PIXELS_PER_UNIT * self._scale * self.__aspect_ratio, self.DEFAULT_PIXELS_PER_UNIT * self._scale)
+        self.__global_scale = (
+        self.DEFAULT_PIXELS_PER_UNIT * self._scale * self.__aspect_ratio, self.DEFAULT_PIXELS_PER_UNIT * self._scale)
         return
 
     def scale(self):
         return self._scale
 
-    def shadow_translation(self): 
-        return (DrawingBackend.DEFAULT_SHADOW_TRANSLATION[0] * self.scale(), DrawingBackend.DEFAULT_SHADOW_TRANSLATION[1] * self.scale())
+    def shadow_translation(self):
+        return (DrawingBackend.DEFAULT_SHADOW_TRANSLATION[0] * self.scale(),
+                DrawingBackend.DEFAULT_SHADOW_TRANSLATION[1] * self.scale())
 
     def set_canvas_size(self, width, height):
         if not self.__user_canvas_size[0]:
@@ -63,9 +66,10 @@ class DrawingBackend(object):
                     else:
                         scale = self.__pixels_per_unit[1]
                     self._canvas_size[1] = drawable_object.size()[1] * scale
-                self.__global_scale = [self._canvas_size[0] / drawable_object.size()[0], self._canvas_size[1] / drawable_object.size()[1]]
+                self.__global_scale = [self._canvas_size[0] / drawable_object.size()[0],
+                                       self._canvas_size[1] / drawable_object.size()[1]]
                 self._scale = self.__global_scale[0] / (self.DEFAULT_PIXELS_PER_UNIT * self.__aspect_ratio)
-        
+
         for drawable_object in drawable_objects:
             if isinstance(drawable_object, Scalable):
                 drawable_object.scale(self.__global_scale)
@@ -92,7 +96,7 @@ class DrawingBackend(object):
     def draw_text(self, obj):
         raise NotImplementedError
 
-    def draw_text_shadow(self,obj):
+    def draw_text_shadow(self, obj):
         raise NotImplementedError
 
     def push_surface(self):
@@ -116,7 +120,7 @@ class DrawingBackend(object):
             objects_lists_per_depth = []
 
         for o in objects:
-           objects_lists_per_depth[o.z_order()].append(o) 
+            objects_lists_per_depth[o.z_order()].append(o)
         i = 0
         for obj_list in objects_lists_per_depth:
             polygons = filter(lambda d: isinstance(d, Polygon) and not isinstance(d, Arrow), obj_list)
@@ -143,9 +147,9 @@ class DrawingBackend(object):
             self.pop_surface()
             self.push_surface()
             for p in polygons:
-                    self.draw_open_graph(p.frame())
+                self.draw_open_graph(p.frame())
             self.pop_surface()
-            i = i + 1
+            i += 1
 
             self.push_surface()
             for drawable_object in graphs:

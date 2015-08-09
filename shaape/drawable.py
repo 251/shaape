@@ -1,11 +1,11 @@
 import math
 import operator
 import networkx as nx
-from node import *
 from style import Style
 
+
 class Drawable(object):
-    def __init__(self, options = []):
+    def __init__(self, options=[]):
         self.__style = Style([], '', [])
         self.__z_order = 0
         self.__options = options

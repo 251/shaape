@@ -1,9 +1,9 @@
 from node import Node
 from arrow import Arrow
-from polygon import Polygon
+
 
 class UpArrow(Arrow):
-    def __init__(self, position = (0, 0)):
+    def __init__(self, position=(0, 0)):
         Arrow.__init__(self, position, [Node(-0.4, 0.0), Node(0, -0.5), Node(0.4, 0.0)])
 
     def direction(self):

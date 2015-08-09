@@ -4,16 +4,18 @@ import math
 import os
 import errno
 
+
 class CairoEpsBackend(CairoBackend):
-    def __init__(self, image_scale = 1.0, image_width = None, image_height = None):
+    def __init__(self, image_scale=1.0, image_width=None, image_height=None):
         super(CairoEpsBackend, self).__init__(image_scale, image_width, image_height)
         return
 
     def blur_surface(self):
         pass
 
-    def new_surface(self, name = None):
-        surface = cairo.PSSurface(name, int(math.ceil(self.image_size()[0] + self.margin()[0] + self.margin()[1])), int(math.ceil(self.image_size()[1] + self.margin()[2] + self.margin()[3])))
+    def new_surface(self, name=None):
+        surface = cairo.PSSurface(name, int(math.ceil(self.image_size()[0] + self.margin()[0] + self.margin()[1])),
+                                  int(math.ceil(self.image_size()[1] + self.margin()[2] + self.margin()[3])))
         surface.set_eps(True)
         return surface
 

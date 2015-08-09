@@ -1,6 +1,5 @@
 import math
 
-
 _number_types = (int, long, float)
 
 
@@ -58,7 +57,7 @@ class Vector(object):
         raise IndexError("{0} is neither 0 nor 1".format(key))
 
     def length(self):
-        return math.sqrt(self.x**2 + self.y**2)
+        return math.sqrt(self.x ** 2 + self.y ** 2)
 
 
 def dot(vec_a, vec_b):
