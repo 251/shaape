@@ -4,7 +4,8 @@ ZIP = zip
 RM = rm -rf
 CD = cd
 
-TEST_BIN = nosetests
+PYTHON = $(shell which python2)
+TEST_BIN = $(shell which nosetests)
 TEST_OPTS = --with-coverage --cover-package=shaape --cover-branches --cover-html
 TEST_DIR = shaape/tests
 
@@ -38,7 +39,7 @@ readme: README
 	asciidoc -a data-uri README
 
 tests:
-	$(TEST_BIN) $(TEST_OPTS) $(TEST_DIR)
+	$(PYTHON) $(TEST_BIN) $(TEST_OPTS) $(TEST_DIR)
 
 profile:
 	$(PROFILE_BIN) $(PROFILE_OPTS)
