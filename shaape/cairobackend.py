@@ -284,17 +284,14 @@ class CairoBackend(DrawingBackend):
         letter_width, letter_height = layout.get_pixel_size()
         unit_width, unit_height = self.global_scale()
         diff_height = (unit_height - letter_height) / 2
-        diff_width = (unit_width - letter_width) / 2
         self.__ctx.translate(0, diff_height)
         for cx, letter in enumerate(text):
             layout.set_text(unicode(letter), -1)
             letter_width, letter_height = layout.get_pixel_size()
             unit_width, unit_height = self.global_scale()
-            diff_height = (unit_height - letter_height) / 2
             diff_width = (unit_width - letter_width) / 2
             self.__ctx.translate(diff_width, 0)
             PangoCairo.update_layout(self.__ctx, layout)
-            fwidth, fheight = layout.get_pixel_size()
             PangoCairo.layout_path(self.__ctx, layout)
             self.__ctx.translate(-diff_width, 0)
             self.__ctx.translate(unit_width, 0)
