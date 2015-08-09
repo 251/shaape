@@ -1,4 +1,11 @@
+*.pyc
 *.egg-info
 
+.coverage
+.idea
 build/
+cover/
 dist/
+generated_images/
+
+shaape/tests/input/empty.shaape.png
