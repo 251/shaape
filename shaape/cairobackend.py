@@ -7,8 +7,8 @@ import networkx as nx
 from translatable import Translatable
 from rotatable import Rotatable
 from node import Node
-import pangocairo
-import pango
+from gi.repository import PangoCairo
+from gi.repository import Pango
 import warnings
 
 class CairoBackend(DrawingBackend):
@@ -21,7 +21,7 @@ class CairoBackend(DrawingBackend):
         self.__surfaces = []
         self.__ctx = None
         self.__drawn_graph = None
-        self.__font_map = pangocairo.cairo_font_map_get_default()
+        self.__font_map = PangoCairo.FontMap.get_default()
         self.__available_font_names = [f.get_name() for f in self.__font_map.list_families()]
         return
 
@@ -260,20 +260,19 @@ class CairoBackend(DrawingBackend):
     def __draw_text(self, text_obj, shadow = False):
         text = text_obj.text()
         self.__ctx.save()
-        pangocairo_context = pangocairo.CairoContext(self.__ctx)
-        layout = pangocairo_context.create_layout()
-        font = pango.FontDescription(text_obj.style().font().name())
+        layout = PangoCairo.create_layout(self.__ctx)
+        font = Pango.FontDescription.from_string(text_obj.style().font().name())
         if not font.get_family() in self.__available_font_names:
             warnings.warn("Couldn't find font family for font name \"" + str(font.get_family()) + "\". Using default font. Available fonts are: " + str(self.__available_font_names), RuntimeWarning)
 
         font_size = font.get_size()
 
         if font_size == 0:
-            font_size = 10 * pango.SCALE
+            font_size = 10 * Pango.SCALE
 
         font.set_size(int(font_size * self._scale))
         layout.set_font_description(font)
-        layout.set_text(text_obj.text())
+        layout.set_text(unicode(text_obj.text()), -1)
 
         if shadow == True:
             self.apply_fill(text_obj, opaqueness = self.SHADOW_OPAQUENESS, shadow = True)
@@ -288,15 +287,15 @@ class CairoBackend(DrawingBackend):
         diff_width = (unit_width - letter_width) / 2
         self.__ctx.translate(0, diff_height)
         for cx, letter in enumerate(text):
-            layout.set_text(letter)
+            layout.set_text(unicode(letter), -1)
             letter_width, letter_height = layout.get_pixel_size()
             unit_width, unit_height = self.global_scale()
             diff_height = (unit_height - letter_height) / 2
             diff_width = (unit_width - letter_width) / 2
             self.__ctx.translate(diff_width, 0)
+            PangoCairo.update_layout(self.__ctx, layout)
             fwidth, fheight = layout.get_pixel_size()
-            pangocairo_context.update_layout(layout)
-            pangocairo_context.layout_path(layout)
+            PangoCairo.layout_path(self.__ctx, layout)
             self.__ctx.translate(-diff_width, 0)
             self.__ctx.translate(unit_width, 0)
         self.__ctx.fill()

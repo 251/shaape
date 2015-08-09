@@ -11,17 +11,11 @@ except ImportError:
     sys.exit(1)
 
 try:
-    import pango
+    from gi.repository import Pango
+    from gi.repository import PangoCairo
 except ImportError:
     print ("Some dependencies could not be found. Make sure to install "
-           "the Python bindings for Pango(import pango).")
-    sys.exit(1)
-
-try:
-    import pangocairo
-except ImportError:
-    print ("Some dependencies could not be found. Make sure to install "
-           "the Python bindings for PangoCairo(import pangocairo).")
+           "the PyGObject.")
     sys.exit(1)
 
 setup(name='shaape',
