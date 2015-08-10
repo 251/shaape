@@ -20,7 +20,7 @@ class CairoEpsBackend(CairoBackend):
         return surface
 
     def export_to_file(self, filename):
-        path = os.path.dirname(filename)
+        path = os.path.abspath(os.path.dirname(filename))
         try:
             os.makedirs(path)
         except OSError as exception:

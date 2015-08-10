@@ -18,7 +18,7 @@ class CairoPdfBackend(CairoBackend):
                                 int(math.ceil(self.image_size()[1] + self.margin()[2] + self.margin()[3])))
 
     def export_to_file(self, filename):
-        path = os.path.dirname(filename)
+        path = os.path.abspath(os.path.dirname(filename))
         try:
             os.makedirs(path)
         except OSError as exception:
